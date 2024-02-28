@@ -77,10 +77,14 @@ func main() {
 		feet := distance.MustConvert(u.Foot).Float()
 		inches := feet * 12.0
 		inches = math.Mod(inches, 12)
-
+		meteFormat := u.FmtOptions{
+			Label: true,
+			Short: true,
+			Precision: 3,
+		}
 		feet = math.Floor(feet)
-		fmt.Println(distance)
-		fmt.Println("feet in:", feet, inches)
+		fmt.Printf("%s or %v feet %.3f inches\n",distance.Fmt(meteFormat),int(feet), inches)
+		
 	})
 
 	select {}
@@ -91,3 +95,4 @@ func must(action string, err error) {
 		panic("failed to " + action + ": " + err.Error())
 	}
 }
+
