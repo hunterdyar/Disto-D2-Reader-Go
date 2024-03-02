@@ -1,6 +1,7 @@
 package disto
 
 import (
+	//	"bufio"
 	"encoding/binary"
 	"fmt"
 	"math"
@@ -41,13 +42,23 @@ func (d *Disto) Connect(adapter *bluetooth.Adapter) {
 	ch := make(chan bluetooth.ScanResult, 1)
 
 	// Start scanning.
-	println("scanning...")
+	println("Searching. ctrl+c to cancel.")
+	//scanner := bufio.NewScanner(os.Stdin)
+	//	scanner.Split(bufio.ScanRunes)
 	err := adapter.Scan(func(adapter *bluetooth.Adapter, result bluetooth.ScanResult) {
-		println("found:", result.Address.String(), result.LocalName())
 		if strings.Contains(result.LocalName(), "DISTO") {
 			adapter.StopScan()
 			ch <- result
 		}
+
+		// or scanner.Scan() {
+		// r := scanner.Text()
+		// if r == "q" || r == "Q" {
+		// 	adapter.StopScan()
+		// 	println("Scanning canceled by user.")
+		// 	return
+		// }
+
 	})
 
 	select {
@@ -58,15 +69,15 @@ func (d *Disto) Connect(adapter *bluetooth.Adapter) {
 			return
 		}
 
-		println("connected to ", result.Address.String())
+		println("DISTO found. Connected to ", result.Address.String())
 	}
 
 	// get services
 	srvcs, err := d.Device.DiscoverServices([]bluetooth.UUID{measureDataUUID})
-	must("discover services", err)
+	must("Discover Dervices", err)
 
 	if len(srvcs) == 0 {
-		panic("could not find service. Is DISTO D2?")
+		panic("could not find service. Is DISTO D2? other DISTO models not currently supported.")
 	}
 
 	service := srvcs[0]
