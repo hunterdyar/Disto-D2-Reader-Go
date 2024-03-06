@@ -2,18 +2,31 @@ package main
 
 import (
 	"fmt"
+	"math"
+
+	"flag"
 	"git.tcp.direct/kayos/sendkeys"
 	u "github.com/bcicen/go-units"
 	"github.com/hunterdyar/go-bluetooth-test/disto"
-	"math"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"tinygo.org/x/bluetooth"
 )
 
+var logging = true
+var keyboard = true
+
 func main() {
+	//flags setup
+	flag.BoolVar(&logging, "l", false, "Log Measurements to JSON output")
+	flag.BoolVar(&keyboard, "k", false, "Type measurement as keyboard. May require raised permissions.")
+
+	flag.Parse()
 	d := disto.Disto{}
 	callback := measure
 	d.OnMeasure = &callback
 	d.Connect(bluetooth.DefaultAdapter)
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 }
 
 func measure(meters float64) {
@@ -22,14 +35,23 @@ func measure(meters float64) {
 	inches := feet * 12.0
 	inches = math.Mod(inches, 12)
 	feet = math.Floor(feet)
-	fmt.Println(distance)
-	fmt.Println("feet in:", feet, inches)
+
 	output := fmt.Sprintf("%s", distance)
-	k, err := sendkeys.NewKBWrapWithOptions(sendkeys.Noisy)
-	if err != nil {
-		println(err.Error())
-		return
+
+	if logging {
+		log.Info().Float64("meters", meters).Msg("")
+
+	}
+	if keyboard {
+		k, err := sendkeys.NewKBWrapWithOptions(sendkeys.Noisy)
+		if err != nil {
+			println(err.Error())
+			return
+		}
+		k.Type(output)
 	}
 
-	k.Type(output)
+	if !keyboard && !logging {
+		fmt.Printf("%f\n", meters)
+	}
 }
