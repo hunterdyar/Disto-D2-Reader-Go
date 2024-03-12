@@ -15,11 +15,13 @@ import (
 
 var logging = true
 var keyboard = true
+var fileName = ""
 
 func main() {
 	//flags setup
 	flag.BoolVar(&logging, "l", false, "Log Measurements to JSON output")
 	flag.BoolVar(&keyboard, "k", false, "Type measurement as keyboard. May require raised permissions.")
+	flag.StringVar(&fileName, "f", "measure_log.json", "Filename for JSON output. Defaults to 'measure_log.json'.")
 
 	flag.Parse()
 	d := disto.Disto{}
