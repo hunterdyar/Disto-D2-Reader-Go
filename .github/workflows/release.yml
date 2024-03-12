@@ -18,7 +18,9 @@ jobs:
       with:
         go-version: '1.20'
 
-    - name: Build
-        run: go get ./cmd
-        run: go get ./disto
-        run: go build -v ./cmd/main.go
+    - name: cmd deps
+      run: go get ./cmd
+    - name: disto deps  
+      run: go get ./disto
+    - name: build
+      run: go build -v ./cmd/main.go
