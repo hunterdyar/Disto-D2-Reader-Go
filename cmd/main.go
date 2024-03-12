@@ -7,7 +7,7 @@ import (
 	"flag"
 	"git.tcp.direct/kayos/sendkeys"
 	u "github.com/bcicen/go-units"
-	"github.com/hunterdyar/go-bluetooth-test/disto"
+	"github.com/hunterdyar/Disto-D2-Reader-Go/disto"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"tinygo.org/x/bluetooth"

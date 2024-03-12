@@ -1,4 +1,4 @@
-module github.com/hunterdyar/go-bluetooth-test
+module github.com/hunterdyar/Disto-D2-Reader-Go
 
 go 1.22.0
 
