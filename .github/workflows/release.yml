@@ -1,4 +1,6 @@
 # .github/workflows/release.yaml
+env:
+  GO111MODULE: on
 
 on:
   release:
