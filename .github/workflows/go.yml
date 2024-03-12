@@ -16,7 +16,7 @@ jobs:
         GOOS: linux
         EXTRA_FILES: "LICENSE"
   release-linux-amd64:
-    name: release linux/amd64
+    name: release-linux/amd64
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -28,7 +28,7 @@ jobs:
         GOOS: linux
         EXTRA_FILES: "LICENSE"
   release-linux-arm:
-    name: release linux/386
+    name: release-linux/386
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -40,7 +40,7 @@ jobs:
         GOOS: linux
         EXTRA_FILES: "LICENSE"
   release-linux-arm64:
-    name: release linux/amd64
+    name: release-linux/arm64
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
